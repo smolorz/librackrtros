@@ -449,6 +449,11 @@ int       RackModule::mailbox_putLastAdr(void)
   return mailboxFreeAdr--;
 }
 
+RackMailbox* RackModule::getCmdMbx(void)
+{
+    return &cmdMbx;
+}
+
 int       RackModule::mailboxCreate(RackMailbox *p_mbx, uint32_t adr, int slots,
                                 size_t data_size, uint32_t flags, int8_t prio)
 {
@@ -599,6 +604,11 @@ int       RackModule::createCmdMbx(void)
                          cmdMbxFlags, dataTaskPrio);
 }
 
+uint32_t RackModule::getName(void)
+{
+    return name;
+}
+
 //
 // RackModule init and cleanup
 //
@@ -717,12 +727,12 @@ int       RackModule::moduleInit(void)
 #endif
 
     // init signal handler
-    ret = init_signal_handler(this);
+/*    ret = init_signal_handler(this);
     if (ret)
     {
         goto exit_error;
     }
-
+*/
     // create command mailbox
     ret = createCmdMbx();
     if (ret)
@@ -739,6 +749,7 @@ int       RackModule::moduleInit(void)
     }
 
     GDOS_PRINT("Init\n");
+GDOS_PRINT("Cmd mbx created, %p\n", &cmdMbx);
 
     // init rack time
     ret = rackTime.init(cmdMbx.getFd());
@@ -971,6 +982,19 @@ int RackModule::moduleCommand(RackMessage *msgInfo)
       // nobody handles this command -> return MODULE_ERROR
       return -EINVAL;
   }
+}
+
+int RackModule::startCmdTask(void)
+{
+    int ret;
+
+    ret = cmdTask.start(&cmd_task_proc, this);
+    if (ret)
+        GDOS_ERROR("Can't start command task, code = %d\n", ret);
+    else
+        moduleInitBits.setBit(INIT_BIT_CMDTSK_STARTED);
+
+    return ret;
 }
 
 void  RackModule::run(void)

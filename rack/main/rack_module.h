@@ -164,14 +164,14 @@ class RackModule {
                                 size_t data_size, uint32_t flags, int8_t prio);
 
         /** Command mailbox of the module */
-        RackMailbox   cmdMbx;
 
         int           createMbx(RackMailbox *p_mbx, int slots, size_t data_size,
                                 uint32_t flags);
         void          destroyMbx(RackMailbox *p_mbx);
         int           initCmdMbx(int slots, size_t data_size, uint32_t flags);
         int           createCmdMbx(void);
-
+        RackMailbox   cmdMbx;
+        RackMailbox*  getCmdMbx(void);
 //
 // Debugging
 //
@@ -192,10 +192,12 @@ class RackModule {
 //
 // module values
 //
+private:
+        uint32_t  name;          // module name (12345678) == cmdMbxAdr
+
     protected:
         uint32_t  systemId;      // system number
         uint32_t  instance;      // instance number
-        uint32_t  name;          // module name (12345678) == cmdMbxAdr
 
         rack_param_msg *paramMsg;
 
@@ -223,10 +225,7 @@ class RackModule {
         }
 
         /** Get the name of the module */
-        uint32_t getName(void)
-        {
-            return name;
-        }
+        uint32_t getName(void);
 
         RackModule(uint32_t classId,
                    uint64_t dataTaskErrorTime_ns,   // datatask error sleep time
@@ -302,6 +301,9 @@ class RackModule {
 //
 // module run function
 //
+    protected:
+        int startCmdTask(void);
+
     public:
         void run(void);
 

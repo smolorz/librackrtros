@@ -176,7 +176,7 @@ void        RackDataModule::removeAllListener(void)
     for (i = 0; i < listenerNum; i++)
     {
         GDOS_DBG_INFO("Remove listener %n (datambx: %x)\n", listener[i].msgInfo.getSrc(), listener[i].msgInfo.getSrc());
-        dataBufferSendMbx->sendMsgReply(MSG_ERROR, &listener[i].msgInfo);
+        cmdMbx.sendMsgReply(MSG_ERROR, &listener[i].msgInfo);
     }
 
     listenerNum = 0;
@@ -301,7 +301,7 @@ int         RackDataModule::sendDataReply(rack_time_t time, RackMessage *msgInfo
 
     if(index >= 0)
     {
-        ret = dataBufferSendMbx->sendDataMsgReply(MSG_DATA, msgInfo, 1, dataBuffer[index].pData,
+        ret = cmdMbx.sendDataMsgReply(MSG_DATA, msgInfo, 1, dataBuffer[index].pData,
                                                   dataBuffer[index].dataSize);
         if(ret)
         {
@@ -383,7 +383,7 @@ void        RackDataModule::putDataBufferWorkSpace(uint32_t datalength)
                        "reduction %d\n", i, listener[i].msgInfo.getSrc(),
                        listenerNum, listener[i].reduction);
 */
-            ret = dataBufferSendMbx->sendDataMsgReply(MSG_DATA,
+            ret = cmdMbx.sendDataMsgReply(MSG_DATA,
                                                       &listener[i].msgInfo,
                                                       1,
                                                       dataBuffer[index].pData,
@@ -391,8 +391,8 @@ void        RackDataModule::putDataBufferWorkSpace(uint32_t datalength)
             if (ret)
             {
                 GDOS_ERROR("DataBuffer: Can't send continuous data "
-                           "to listener %n, code = %d\n",
-                           listener[i].msgInfo.getSrc(), ret);
+                           "to listener %n, code = %d, fd = %d, %p, %p\n",
+                           listener[i].msgInfo.getSrc(), ret, dataBufferSendMbx->getFd(), dataBufferSendMbx, &cmdMbx);
 
                 removeListener(listener[i].msgInfo.getSrc());
             }
@@ -451,7 +451,7 @@ int         RackDataModule::moduleInit(void)
     dataModuleInitBits.setBit(INIT_BIT_RACK_MODULE);
 
     // now the command mailbox exists
-    dataBufferSendMbx = &cmdMbx;
+    dataBufferSendMbx = getCmdMbx();
 
     GDOS_DBG_DETAIL("RackDataModule::moduleInit ... \n");
 
@@ -679,7 +679,7 @@ int         RackDataModule::moduleCommand(RackMessage *msgInfo)
                             msgInfo->datalen, p_data->dataMbxAdr,
                             p_data->periodTime);
 
-            if (status == MODULE_STATE_ENABLED)
+//            if (status == MODULE_STATE_ENABLED)
             {
                 ret = addListener(p_data->periodTime, 0, p_data->dataMbxAdr, msgInfo);
                 if (ret)
@@ -707,7 +707,7 @@ int         RackDataModule::moduleCommand(RackMessage *msgInfo)
                     }
                 }
             }
-            else // status != MODULE_STATE_ENABLED
+/*            else // status != MODULE_STATE_ENABLED
             {
                 ret = cmdMbx.sendMsgReply(MSG_ERROR, msgInfo);
                 if (ret)
@@ -716,7 +716,7 @@ int         RackDataModule::moduleCommand(RackMessage *msgInfo)
                                "code = %d\n", ret);
                     return ret;
                 }
-            }
+            }*/
             return 0;
         }
 

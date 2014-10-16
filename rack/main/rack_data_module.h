@@ -76,6 +76,7 @@ class RackDataModule : public RackModule
         RackBits            dataModuleInitBits;   // internal rack_data_module init bits
 
     protected:
+        uint32_t            dataBufferMaxDataSize;  // per slot !!!
         uint32_t            index;
         uint32_t            globalDataCount;
         uint32_t            listenerNum;
@@ -90,7 +91,6 @@ class RackDataModule : public RackModule
         char                listenerMtxName[30];
 
         uint32_t            dataBufferMaxEntries;
-        uint32_t            dataBufferMaxDataSize;  // per slot !!!
         uint32_t            dataBufferMaxListener;
         int16_t             dataBufferSendType;
         RackMailbox*        dataBufferSendMbx;
