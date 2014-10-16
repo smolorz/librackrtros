@@ -2,44 +2,11 @@ ACLOCAL_AMFLAGS=-I config/autoconf
 
 SUBDIRS = \
 	config \
-	doc \
 	main \
-	control \
-	drivers \
-	navigation \
-	perception \
-	tools \
-	skel \
-	gui \
-	examples \
 	scripts
-
-JARFILE = @PROJNAME@.jar
-
-if CONFIG_RACK_JAVA
-
-pkgdata_DATA = $(JARFILE)
 
 MANIFEST =
 MANIFEST_FLAG =
-
-if CONFIG_RACK_JAVA_GUI
-
-MANIFEST += $(srcdir)/gui/gui.manifest
-MANIFEST_FLAG += m
-
-endif
-
-@PROJNAME@.jar: $(MANIFEST) $(shell find $(top_builddir) -name "*.class")
-	@echo "creating $@"; \
-	builddir=`pwd`; \
-	cd $(top_builddir); \
-	$(JAR) cf$(MANIFEST_FLAG) $(JARFILE) $(MANIFEST) `find @PROJNAME@/ -name "*.class" 2> /dev/null`
-
-endif
-
-clean-local:
-	rm -f $(JARFILE)
 
 EXTRA_DIST = \
 	defconfig \

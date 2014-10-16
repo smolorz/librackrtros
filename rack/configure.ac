@@ -349,51 +349,6 @@ AC_CONFIG_FILES([GNUmakefile \
     main/tims/linux/GNUmakefile \
     main/tims/router/GNUmakefile \
     \
-    control/GNUmakefile \
-    \
-    drivers/GNUmakefile \
-    drivers/camera/GNUmakefile \
-    drivers/chassis/GNUmakefile \
-    drivers/clock/GNUmakefile \
-    drivers/compass/GNUmakefile \
-    drivers/gps/GNUmakefile \
-    drivers/gyro/GNUmakefile \
-    drivers/ladar/GNUmakefile \
-    \
-    navigation/GNUmakefile \
-    navigation/odometry/GNUmakefile \
-    navigation/pilot/GNUmakefile \
-    navigation/position/GNUmakefile \
-    \
-    perception/GNUmakefile \
-    perception/scan2d/GNUmakefile \
-    perception/obj_recog/GNUmakefile \
-    \
-    skel/GNUmakefile \
-    skel/dummy/GNUmakefile \
-    \
-    gui/GNUmakefile \
-    gui/main/GNUmakefile \
-    gui/control/GNUmakefile \
-    gui/drivers/GNUmakefile \
-    gui/navigation/GNUmakefile \
-    gui/perception/GNUmakefile \
-    gui/tools/GNUmakefile \
-    \
-    tools/GNUmakefile \
-    tools/datalog/GNUmakefile \
-    \
-    examples/GNUmakefile \
-    examples/linux_example \
-    examples/xenomai_example \
-    examples/load_tims_linux \
-    examples/load_tims_xenomai \
-    examples/load_rack_sim \
-    examples/unload_tims_linux \
-    examples/unload_tims_xenomai \
-    examples/unload_rack_sim \
-    examples/rack_gui \
-    \
     scripts/GNUmakefile \
     scripts/]ConfigScript[ \
     \
