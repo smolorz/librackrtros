@@ -23,7 +23,7 @@ endif
 
 ifeq ($(MAKECMDGOALS),)
 confgui = $(shell test $(TERM) = emacs && echo xconfig || echo menuconfig)
-forceconf = $(shell test -r .rack_config -a -r .cfok || echo $(confgui))
+forceconf = $(shell test -r .rackrtros_config -a -r .cfok || echo $(confgui))
 endif
 
 override srctree := $(shell cd $(srctree) && pwd)
@@ -132,7 +132,7 @@ defconfig: $(KCONFIG_DIR)
 	@$(MAKE) -C $(KCONFIG_DIR) \
 	-f $(srctree)/$(KCONFIG_DIR)/Makefile.kconfig defconfig \
 	srctree=$(srctree) ARCH=$(ARCH)
-	cp .rack_config defconfig
+	cp .rackrtros_config defconfig
 
 $(KCONFIG_DIR):
 	@test -d $@ || mkdir -p $@

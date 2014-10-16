@@ -3,7 +3,7 @@
 git checkout -- `find . -name GNUmakefile.in` \
 	configure \
 	aclocal.m4 \
-	config/rack_config_pre.h.in \
+	config/rackrtros_config_pre.h.in \
 	config/autoconf/config.guess \
 	config/autoconf/config.sub \
 	config/autoconf/depcomp \

@@ -14,13 +14,13 @@
 #define LKC_DIRECT_LINK
 #include "lkc.h"
 
-const char conf_def_filename[] = "../../.rack_config";
+const char conf_def_filename[] = "../../.rackrtros_config";
 
 const char conf_defname[] = "defconfig";
 
 const char *conf_confnames[] = {
-	"../../.rack_config",
-	"/etc/rack-config",
+	"../../.rackrtros_config",
+	"/etc/rackrtros-config",
 	conf_defname,
 	NULL,
 };
