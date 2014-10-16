@@ -14,11 +14,11 @@
  *
  */
 
-#include <rack_config.h>
+#include <rackrtros_config.h>
 
-const char __attribute__((used)) rack_version[] = "*** " RACK_PACKAGE_STRING
-#ifdef RACK_PACKAGE_SVN_REVISION
-    " (SVN revision #" RACK_PACKAGE_SVN_REVISION ") ***";
+const char __attribute__((used)) rackrtros_version[] = "*** " RACKRTROS_PACKAGE_STRING
+#ifdef RACKRTROS_PACKAGE_SVN_REVISION
+    " (SVN revision #" RACKRTROS_PACKAGE_SVN_REVISION ") ***";
 #else /* !RACK_PACKAGE_SVN_REVISION */
     " ***";
 #endif /* RACK_PACKAGE_SVN_REVISION */

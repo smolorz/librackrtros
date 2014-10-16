@@ -12,39 +12,13 @@ timsinclude_HEADERS = \
 SUBDIRS = \
 	router
 
-if CONFIG_RACK_OS_XENOMAI
+if CONFIG_RACKRTROS_OS_XENOMAI
 
 SUBDIRS += xenomai
 
 else
 
 SUBDIRS += linux
-
-endif
-
-if CONFIG_RACK_BUILD_KMOD
-SUBDIRS += xenomai_kmod
-endif
-
-javadir =
-dist_java_JAVA =
-
-if CONFIG_RACK_JAVA
-
-dist_java_JAVA += \
-	BigEndianDataInputStream.java \
-	EndianDataInputStream.java \
-	LittleEndianDataInputStream.java \
-	Tims.java \
-	TimsDataRate.java \
-	TimsRawMsg.java \
-	TimsMbx.java \
-	TimsMsg.java \
-	TimsRouter.java \
-	TimsRouterMbxMsg.java \
-	TimsTcp.java \
-	TimsException.java \
-	TimsTimeoutException.java
 
 endif
 

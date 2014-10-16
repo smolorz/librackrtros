@@ -23,7 +23,7 @@
 
 #include <native/pipe.h>
 
-#include "rack_config.h"
+#include "rackrtros_config.h"
 #include "tims_driver.h"
 #include "tims_debug.h"
 #include "tims_clock.h"

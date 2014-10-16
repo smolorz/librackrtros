@@ -1,0 +1,129 @@
+#! /bin/bash
+
+staging=${DESTDIR}
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+pkglibdir=${libdir}/@PACKAGE@
+datadir=@datadir@
+datarootdir=@datarootdir@
+pkgdatadir=${datarootdir}${datadir}/@PACKAGE@
+pkgincludedir=@includedir@/@PACKAGE@
+
+#
+# RACKRTROS
+#
+RACKRTROS_VERSION="@PACKAGE_VERSION@"
+RACKRTROS_PREFIX="${staging}${prefix}"
+RACKRTROS_CPPFLAGS="-I${staging}${pkgincludedir} @XENOMAI_CPPFLAGS@ @RACK_MSG_SIZE_CPPFLAGS@ @RACK_GLOBAL_CPPFLAGS@"
+RACKRTROS_LDFLAGS="-L${staging}${libdir} @XENOMAI_LDFLAGS@ @RACK_GLOBAL_LDFLAGS@"
+RACKRTROS_LIBS="@RACK_LIBS@"
+
+#
+# common
+#
+RACKRTROS_CC="@CC@"
+RACKRTROS_CXX="@CXX@"
+RACKRTROS_TARGET_ARCH="@RACK_TARGET_ARCH@"
+RACKRTROS_GLOBAL_CPPFLAGS="@RACK_GLOBAL_CPPFLAGS@"
+RACKRTROS_GLOBAL_LDFLAGS="@RACK_GLOBAL_LDFLAGS@"
+RACKRTROS_SUPPORTS="@RACK_SUPPORTS@"
+
+#
+# cross compiling
+#
+RACKRTROS_CROSS_COMPILE="@CROSS_COMPILE@"
+RACKRTROS_HOST_ALIAS="@host_alias@"
+
+unset prefix exec_prefix libdir datadir pkgdatadir pkgincludedir
+
+usage ()
+{
+cat <<EOF
+Usage rackrtros-config OPTIONS
+Options :
+        --help
+        --v,--verbose
+        --cc
+        --cxx
+        --arch
+        --global-cppflags
+        --global-ldflags
+        --supports
+        --supports <package>
+        --cppflags <package>
+        --ldflags <package>
+        --libs <package>
+        --rackrtros-version
+        --rackrtros-prefix
+EOF
+    exit $1
+}
+
+verbose ()
+{
+    echo rackrtros-config --verbose
+    echo "   " --cc="\"$RACKRTROS_CC\""
+    echo "   " --cxx="\"$RACKRTROS_CXX\""
+    echo "   " --arch="\"$RACKRTROS_TARGET_ARCH\""
+    echo "   " --global-cppflags="\"$RACKRTROS_GLOBAL_CPPFLAGS\""
+    echo "   " --global-ldflags="\"$RACKRTROS_GLOBAL_LDFLAGS\""
+    echo "   " --rackrtros-version="\"$RACKRTROS_VERSION\""
+    echo "   " --rackrtros-prefix="\"$RACKRTROS_PREFIX\""
+    echo "   " --supports="\"$RACKRTROS_SUPPORTS\""
+}
+
+if test $# -eq 0; then
+    verbose $*
+    usage 1 1>&2
+fi
+
+while test $# -gt 0; do
+    case "$1" in
+        --v|--verbose)        verbose $*; exit 0         ;;
+        --cc)                 echo $RACKRTROS_CC              ;;
+        --cxx)                echo $RACKRTROS_CXX             ;;
+        --arch)               echo $RACKRTROS_TARGET_ARCH     ;;
+        --global-cppflags)    echo $RACKRTROS_GLOBAL_CPPFLAGS ;;
+        --global-ldflags)     echo $RACKRTROS_GLOBAL_LDFLAGS  ;;
+        --supports)
+            if [ "$2" == "" ]; then
+                echo $RACKRTROS_SUPPORTS
+            else
+                DUMMY=`echo "$RACKRTROS_SUPPORTS" | grep -w "$2"`
+                if [ "$DUMMY" == "" ]; then
+                    echo "n"
+                else
+                    echo "y"
+                fi
+                shift
+            fi
+            ;;
+        --cppflags)
+            case "$2" in
+                rackrtros)       echo $RACKRTROS_CPPFLAGS       ;;
+                *)          echo ""                   ;;
+            esac
+            shift
+            ;;
+        --ldflags)
+            case "$2" in
+                rackrtros)       echo $RACKRTROS_LDFLAGS       ;;
+                *)          echo ""                  ;;
+            esac
+            shift
+            ;;
+        --libs)
+            case "$2" in
+                rackrtros)       echo $RACKRTROS_LIBS       ;;
+                *)          echo ""               ;;
+            esac
+            shift
+            ;;
+        --rackrtros-prefix)      echo $RACKRTROS_PREFIX     ;;
+        --rackrtros-version)     echo $RACKRTROS_VERSION    ;;
+        --help)             usage 0 1>&2          ;;
+        *)                  usage 1 1>&2          ;;
+    esac
+    shift
+done

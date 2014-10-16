@@ -46,7 +46,7 @@ oldconfig: oldconf config-script
 config-script: autogen config.status
 
 reconfig::
-	@touch .rack_config
+	@touch .rackrtros_config
 
 reconfig:: config-script
 
@@ -59,15 +59,15 @@ autogen:
 	fi ; \
 	cd $$current_build_dir
 
-config.status: .rack_config
+config.status: .rackrtros_config
 	@test -r config.status && recf=yes || recf=no ; \
-	eval `grep ^CONFIG_RACK_INSTALLDIR $<`; \
-	eval `grep ^CONFIG_RACK_TARGET_TUPLE $<`; \
-	eval `grep ^CONFIG_RACK_TOOLCHAIN_PARENT_DIR $<`; \
-	eval `grep ^CONFIG_RACK_CROSS_COMPILE $<`; \
-	if test x$$CONFIG_RACK_CROSS_COMPILE = xy ; then \
-	   host_alias=$$CONFIG_RACK_TARGET_TUPLE ; \
-	   CROSS_COMPILE="$$CONFIG_RACK_TOOLCHAIN_PARENT_DIR/$$host_alias/bin/$$host_alias-" ; \
+	eval `grep ^CONFIG_RACKRTROS_INSTALLDIR $<`; \
+	eval `grep ^CONFIG_RACKRTROS_TARGET_TUPLE $<`; \
+	eval `grep ^CONFIG_RACKRTROS_TOOLCHAIN_PARENT_DIR $<`; \
+	eval `grep ^CONFIG_RACKRTROS_CROSS_COMPILE $<`; \
+	if test x$$CONFIG_RACKRTROS_CROSS_COMPILE = xy ; then \
+	   host_alias=$$CONFIG_RACKRTROS_TARGET_TUPLE ; \
+	   CROSS_COMPILE="$$CONFIG_RACKRTROS_TOOLCHAIN_PARENT_DIR/$$host_alias/bin/$$host_alias-" ; \
 	else \
 	   host_alias=$(host_alias) ; \
 	   CROSS_COMPILE=$(CROSS_COMPILE) ; \
@@ -84,7 +84,7 @@ config.status: .rack_config
 	--build=$(build_alias) \
 	--host=$$host_alias \
 	--with-kconfig-file=$< \
-	--prefix=$$CONFIG_RACK_INSTALLDIR \
+	--prefix=$$CONFIG_RACKRTROS_INSTALLDIR \
 	$$confopts ; \
 	if test $$? = 0; then \
 	   touch .cfok ; \
